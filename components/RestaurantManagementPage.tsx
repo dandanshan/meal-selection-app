@@ -242,7 +242,7 @@ export default function RestaurantManagementPage() {
     <div className="space-y-4 sm:space-y-6">
       {/* 新增餐廳按鈕 */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
-        <h2 className="text-xl sm:text-2xl font-bold theme-title">餐廳管理</h2>
+        <h2 className="text-xl sm:text-2xl font-bold theme-title">店家管理</h2>
         <Dialog open={isAddDialogOpen} onOpenChange={(open) => {
           if (!open) {
             // 關閉對話框時重置表單

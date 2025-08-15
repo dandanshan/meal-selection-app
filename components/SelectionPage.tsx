@@ -60,7 +60,7 @@ export default function SelectionPage() {
   const [loading, setLoading] = useState(false)
   // 方圓範圍選項 state
   const [radius, setRadius] = useState(0.5) // 預設近: 0.5km
-  const [latLng, setLatLng] = useState<{ lat: number, lng: number } | null>(null)
+  // 已移除定位資訊
   const { theme } = useTheme()
   const { toast } = useToast()
 
@@ -118,166 +118,6 @@ export default function SelectionPage() {
       return
     }
 
-    // 第一次沒有 latLng 時才請求定位
-    if (!latLng) {
-      if ('geolocation' in navigator) {
-        setLoading(true);
-        navigator.geolocation.getCurrentPosition(
-          async (position) => {
-            const coords = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            setLatLng(coords);
-            // 直接用抓到的座標呼叫 API
-            try {
-              const response = await fetch('/api/select', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  peopleCount: Number(peopleCount),
-                  isRaining: isRaining === 'yes',
-                  weather: weatherData.weather,
-                  temperature: weatherData.temperature,
-                  radius,
-                  lat: coords.lat,
-                  lng: coords.lng
-                })
-              })
-              if (!response.ok) {
-                const error = await response.json()
-                toast({
-                  title: "抽選失敗",
-                  description: error.error || '沒有符合條件的餐廳',
-                  variant: "destructive",
-                })
-                setLoading(false);
-                return;
-              }
-              const result = await response.json()
-              setSelectedResult(result)
-              setShowConfirmDialog(true)
-            } catch (error) {
-              toast({
-                title: "抽選失敗",
-                description: "請稍後再試",
-                variant: "destructive",
-              })
-            } finally {
-              setLoading(false);
-            }
-          },
-          async (geoError) => {
-            // 使用者拒絕或失敗時，這時才詢問 Synology fallback
-            if (window.confirm('無法取得您目前的位置，是否要改用 Synology 群暉科技總部的位置進行查詢？')) {
-              const coords = { lat: 24.99906847573391, lng: 121.45646518085114 };
-              setLatLng(coords);
-              setLoading(true);
-              try {
-                const response = await fetch('/api/select', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    peopleCount: Number(peopleCount),
-                    isRaining: isRaining === 'yes',
-                    weather: weatherData.weather,
-                    temperature: weatherData.temperature,
-                    radius,
-                    lat: coords.lat,
-                    lng: coords.lng
-                  })
-                })
-                if (!response.ok) {
-                  const error = await response.json()
-                  toast({
-                    title: "抽選失敗 (使用預設經緯度)",
-                    description: error.error || '沒有符合條件的餐廳',
-                    variant: "destructive",
-                  })
-                  setLoading(false);
-                  return;
-                }
-                const result = await response.json()
-                setSelectedResult(result)
-                setShowConfirmDialog(true)
-              } catch (error) {
-                toast({
-                  title: "抽選失敗 (使用預設經緯度)",
-                  description: "請稍後再試",
-                  variant: "destructive",
-                })
-              } finally {
-                setLoading(false);
-              }
-            } else {
-              setLoading(false);
-              toast({
-                title: "無法取得現在位置",
-                description: geoError.message || '未授權存取位置，且未選用預設地點',
-                variant: "destructive",
-              });
-            }
-          }
-        );
-      } else {
-        // 若瀏覽器不支援 geolocation，直接問 Synology fallback
-        if (window.confirm('您的瀏覽器不支援定位，是否要改用 Synology 群暉科技總部的位置進行查詢？')) {
-          const coords = { lat: 24.99906847573391, lng: 121.45646518085114 };
-          setLatLng(coords);
-          setLoading(true);
-          try {
-            const response = await fetch('/api/select', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                peopleCount: Number(peopleCount),
-                isRaining: isRaining === 'yes',
-                weather: weatherData.weather,
-                temperature: weatherData.temperature,
-                radius,
-                lat: coords.lat,
-                lng: coords.lng
-              })
-            })
-            if (!response.ok) {
-              const error = await response.json()
-              toast({
-                title: "抽選失敗 (使用預設經緯度)",
-                description: error.error || '沒有符合條件的餐廳',
-                variant: "destructive",
-              })
-              setLoading(false);
-              return;
-            }
-            const result = await response.json()
-            setSelectedResult(result)
-            setShowConfirmDialog(true)
-          } catch (error) {
-            toast({
-              title: "抽選失敗 (使用預設經緯度)",
-              description: "請稍後再試",
-              variant: "destructive",
-            })
-          } finally {
-            setLoading(false);
-          }
-        } else {
-          toast({
-            title: "無法取得目前位置",
-            description: "您的瀏覽器不支援定位功能，且未選用預設地點",
-            variant: "destructive",
-          });
-        }
-      }
-      return;
-    }
-
     setLoading(true)
     try {
       const response = await fetch('/api/select', {
@@ -290,9 +130,7 @@ export default function SelectionPage() {
           isRaining: isRaining === 'yes',
           weather: weatherData.weather,
           temperature: weatherData.temperature,
-          radius,
-          lat: latLng.lat,
-          lng: latLng.lng
+          radius
         })
       })
 
@@ -477,7 +315,7 @@ export default function SelectionPage() {
             </div>
 
             <div>
-              <Label className="mb-3 block">搜尋範圍</Label>
+              <Label className="mb-3 block">店家距離</Label>
               <div className="flex gap-2 mt-2">
                 <Button
                   type="button"

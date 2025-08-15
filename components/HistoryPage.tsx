@@ -261,7 +261,7 @@ export default function HistoryPage() {
   return (
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-4 sm:mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold theme-title">選擇歷史</h2>
+        <h2 className="text-xl sm:text-2xl font-bold theme-title">歷史記錄</h2>
         <Button 
           className="theme-button w-full sm:w-auto" 
           onClick={() => setShowClearAllDialog(true)}
@@ -297,68 +297,46 @@ export default function HistoryPage() {
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                  <div className="space-y-3 text-sm">
-                    <p>
-                      <strong>類型:</strong> {record.restaurant.type}
-                    </p>
-                    <p>
-                      <strong>用餐人數:</strong> {record.peopleCount}人
-                    </p>
-                    <p>
-                      <strong>餐廳建議人數:</strong> {record.restaurant.suggestedPeople}
-                    </p>
-                    <p>
-                      <strong>天氣:</strong> {record.weather}
-                    </p>
-                    <p>
-                      <strong>下雨:</strong> {record.isRaining ? "是" : "否"}
-                    </p>
-                  </div>
-                  <div className="space-y-4">
-                    {record.payment ? (
-                      <div className="space-y-3 text-sm">
-                        <p>
-                          <strong>金額:</strong> NT${record.payment.amount}
-                        </p>
-                        <p>
-                          <strong>付款人:</strong> {record.payment.payerName}
-                        </p>
-                        {record.payment.receiptImage && (
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button variant="outline" size="sm">
-                                <Eye className="w-4 h-4 mr-2" />
-                                查看收據
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent className="max-w-2xl">
-                              <DialogHeader>
-                                <DialogTitle>收據照片</DialogTitle>
-                              </DialogHeader>
-                              <div className="pt-2">
-                                <img
-                                  src={record.payment.receiptImage}
-                                  alt="Receipt"
-                                  className="w-full h-auto max-h-96 object-contain"
-                                />
-                              </div>
-                            </DialogContent>
-                          </Dialog>
-                        )}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-muted-foreground">尚未填寫付款資訊</p>
-                    )}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => editPaymentInfo(record.id)}
-                      className="w-full"
-                    >
-                      {record.payment ? "編輯付款資訊" : "新增付款資訊"}
-                    </Button>
-                  </div>
+                <div className="flex flex-col gap-4 text-sm">
+                  <div><strong>用餐人數:</strong> {record.peopleCount}人</div>
+                  {record.payment && <div><strong>總金額:</strong> NT${record.payment.amount}</div>}
+                  {record.payment && <div><strong>付款人:</strong> {record.payment.payerName}</div>}
+                  {record.payment && record.payment.amount && record.peopleCount && (
+                    <div><strong>每人平均金額:</strong> NT${(record.payment.amount / record.peopleCount).toFixed(0)}</div>
+                  )}
+                </div>
+                <div className="h-4" />
+                <div className="flex flex-col gap-2 mt-2">
+                  {record.payment && record.payment.receiptImage && (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="outline" size="sm">
+                          <Eye className="w-4 h-4 mr-2" />
+                          查看收據
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-2xl">
+                        <DialogHeader>
+                          <DialogTitle>收據照片</DialogTitle>
+                        </DialogHeader>
+                        <div className="pt-2">
+                          <img
+                            src={record.payment.receiptImage}
+                            alt="Receipt"
+                            className="w-full h-auto max-h-96 object-contain"
+                          />
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => editPaymentInfo(record.id)}
+                    className="w-full"
+                  >
+                    {record.payment ? "編輯付款資訊" : "新增付款資訊"}
+                  </Button>
                 </div>
               </CardContent>
             </Card>
