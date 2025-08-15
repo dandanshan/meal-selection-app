@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Colleague {
+  id    String @id @default(cuid())
+  name  String
+  // 你可以加更多欄位，如部門等
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Restaurant {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // 中式、日式、美式等
+  suggestedPeople String  // 建議用餐人數: '1-4', '5-8', '9+'
+  phone       String?
+  address     String?
+  businessDays String  // JSON string: ["monday", "tuesday", ...]
+  notSuitableForSummer Boolean @default(false)
+  notSuitableForWinter Boolean @default(false)
+  notSuitableForRainy  Boolean @default(false)
+  distance    Float?   // 距離（公里）
+  latitude    Float?   // 緯度（可空）
+  longitude   Float?   // 經度（可空）
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  history     History[]
+}
+
+model History {
+  id          String   @id @default(cuid())
+  date        DateTime
+  restaurantId String
+  restaurant  Restaurant @relation(fields: [restaurantId], references: [id])
+  peopleCount Int
+  weather     String
+  isRaining   Boolean
+  confirmed   Boolean @default(false)
+  createdAt   DateTime @default(now())
+
+  payment     Payment?
+}
+
+model Payment {
+  id          String   @id @default(cuid())
+  historyId   String   @unique
+  history     History  @relation(fields: [historyId], references: [id])
+  payerName   String?
+  amount      Float?
+  receiptImage String? // 圖片 URL
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
