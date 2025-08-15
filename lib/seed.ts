@@ -99,14 +99,6 @@ const defaultRestaurants = [
   }
 ]
 
-const defaultColleagues = [
-  { name: '王小明' },
-  { name: '陳大華' },
-  { name: '林小美' },
-  { name: '李建國' },
-  { name: '蔡依林' },
-];
-
 export async function seedDatabase() {
   try {
     // 檢查是否已有資料

@@ -5,7 +5,7 @@ import type React from "react"
 import { createContext, useContext } from "react"
 
 interface ThemeContextType {
-  theme: "mario" | "synology"
+  theme: "mario" | "synology" | "hakka"
 }
 
 const ThemeContext = createContext<ThemeContextType>({ theme: "mario" })
@@ -13,7 +13,7 @@ const ThemeContext = createContext<ThemeContextType>({ theme: "mario" })
 export const useTheme = () => useContext(ThemeContext)
 
 interface ThemeProviderProps {
-  theme: "mario" | "synology"
+  theme: "mario" | "synology" | "hakka"
   children: React.ReactNode
 }
 

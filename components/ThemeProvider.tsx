@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react'
 
-type Theme = 'mario' | 'synology'
+type Theme = 'mario' | 'synology' | 'hakka'
 
 interface ThemeContextType {
   theme: Theme
@@ -17,7 +17,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // 從 localStorage 讀取主題設定
     const savedTheme = localStorage.getItem('theme') as Theme
-    if (savedTheme && (savedTheme === 'mario' || savedTheme === 'synology')) {
+    if (savedTheme && (savedTheme === 'mario' || savedTheme === 'synology' || savedTheme === 'hakka')) {
       setTheme(savedTheme)
     }
   }, [])
@@ -27,7 +27,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('theme', theme)
     
     // 更新 body 的 class
-    document.body.className = document.body.className.replace(/mario-theme|synology-theme/g, '')
+    document.body.className = document.body.className.replace(/mario-theme|synology-theme|hakka-theme/g, '')
     document.body.classList.add(`${theme}-theme`)
   }, [theme])
 

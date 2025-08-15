@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Toggle } from '@/components/ui/toggle'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
+import { Info } from 'lucide-react'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 import { Cloud, Sun, CloudRain, Dice6, Phone, MapPin, Users, TrendingUp, TrendingDown, Settings, Laugh, BarChart3, Utensils } from 'lucide-react'
 import { getRandomJoke } from '@/lib/jokes'
@@ -19,6 +21,8 @@ interface WeatherData {
   temperature: number
   weather: string
   dayOfWeek: string
+  relativeHumidity: number
+  precipitationHour: number
 }
 
 interface Restaurant {
@@ -48,6 +52,17 @@ interface History {
           volume: string
           priceChange: string
         }
+
+// 體感溫度 (Heat Index) 計算
+function calcHeatIndex(temp: number, rh: number) {
+  if (!temp || !rh) return "-"
+  // NOAA公式，攝氏版本
+  const hi = -8.784695 + 1.61139411 * temp + 2.338549 * rh - 0.14611605 * temp * rh
+    - 0.01230809 * temp * temp - 0.01642482 * rh * rh
+    + 0.00221173 * temp * temp * rh + 0.00072546 * temp * rh * rh
+    - 0.00000358 * temp * temp * rh * rh;
+  return hi.toFixed(1);
+}
 
 export default function SelectionPage() {
   const [peopleCount, setPeopleCount] = useState<number | ''>('')
@@ -86,7 +101,9 @@ export default function SelectionPage() {
       setWeatherData({
         temperature: 25,
         weather: '晴時多雲',
-        dayOfWeek: days[today.getDay()]
+        dayOfWeek: days[today.getDay()],
+        relativeHumidity: 70,
+        precipitationHour: 0
       })
     }
   }
@@ -315,26 +332,45 @@ export default function SelectionPage() {
             </div>
 
             <div>
-              <Label className="mb-3 block">店家距離</Label>
+              <Label className="mb-3 block flex items-center gap-1">
+                距離
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="inline-flex items-center cursor-pointer">
+                        <Info className="w-4 h-4" stroke="currentColor" style={{ color: "#9ca3af" }} />
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" align="start">
+                      步行距離
+                        <ul className="pl-2 space-y-1">
+                          <li>• 附近吃: 距離 0.5 公里以內</li>
+                          <li>• 走一小段: 距離 1 公里以內</li>
+                          <li>• 不想上班: 距離 2 公里以內</li>
+                        </ul>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </Label>
               <div className="flex gap-2 mt-2">
                 <Button
                   type="button"
                   variant={radius === 0.5 ? 'default' : 'outline'}
                   className={radius === 0.5 ? 'theme-button' : 'theme-button-outline'}
                   onClick={() => setRadius(0.5)}
-                >近</Button>
+                >附近吃</Button>
                 <Button
                   type="button"
                   variant={radius === 1 ? 'default' : 'outline'}
                   className={radius === 1 ? 'theme-button' : 'theme-button-outline'}
                   onClick={() => setRadius(1)}
-                >中</Button>
+                >走一小段</Button>
                 <Button
                   type="button"
                   variant={radius === 2 ? 'default' : 'outline'}
                   className={radius === 2 ? 'theme-button' : 'theme-button-outline'}
                   onClick={() => setRadius(2)}
-                >遠</Button>
+                >不想上班</Button>
               </div>
             </div>
 
@@ -361,20 +397,27 @@ export default function SelectionPage() {
             {weatherData ? (
               <div className="space-y-3">
                 <div className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
-                  <span className="text-gray-600 dark:text-gray-300">溫度</span>
-                  <span>{weatherData.temperature}°C</span>
-                </div>
-                <div className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
-                  <span className="text-gray-600 dark:text-gray-300">天氣</span>
-                  <span>{weatherData.weather}</span>
-                </div>
-                <div className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
                   <span className="text-gray-600 dark:text-gray-300">星期</span>
                   <span>星期{weatherData.dayOfWeek}</span>
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="text-gray-600 dark:text-gray-300">地區</span>
                   <span>新北市板橋區</span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
+                  <span className="text-gray-600 dark:text-gray-300">天氣</span>
+                  <span>{weatherData.weather}</span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
+                  <span className="text-gray-600 dark:text-gray-300">溫度</span>
+                  <span>{weatherData.temperature}°C</span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
+                  <span className="text-gray-600 dark:text-gray-300">體感溫度</span>
+                  <span>
+                    {typeof weatherData.temperature === 'number' && typeof weatherData.relativeHumidity === 'number' ?
+                      `${calcHeatIndex(weatherData.temperature, weatherData.relativeHumidity)}°C` : "—"}
+                  </span>
                 </div>
               </div>
             ) : (

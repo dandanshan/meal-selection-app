@@ -134,6 +134,17 @@ html {
   }
 }
 
+.hakka-theme {
+--theme-primary: #145DA0;
+--theme-secondary: #F7B2AD;
+--theme-third: #E28413;
+--theme-fourth: #A0C4B0;
+--theme-bg: #F7F9FA;
+--theme-title: #145DA0;
+}
+
+
+
 /* Mario Theme - Flat Modern Design */
 .mario-theme {
   background: linear-gradient(135deg, #87CEEB 0%, #59c7ed 50%, #4A90E2 100%);
@@ -596,6 +607,93 @@ html {
   transform: scale(1.01) !important;
 }
 
+
+/* Hakaa Theme - Flat Modern Design */
+body.hakka-theme .theme-card {
+  background: var(--theme-bg) !important;
+  border: 2px solid var(--theme-bg) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 1px 3px 0 rgba(20, 93, 160, 0.08) !important;
+  color: var(--theme-title) !important;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+body.hakka-theme .theme-title,
+body.hakka-theme [data-slot="card-title"],
+body.hakka-theme .card-title {
+  color: var(--theme-title) !important;
+  font-weight: bold !important;
+}
+
+body.hakka-theme .theme-button {
+  background: var(--theme-primary) !important;
+  color: #fff !important;
+  border: 2px solid var(--theme-primary) !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem 0;
+}
+
+body.hakka-theme .theme-button-outline {
+  background: transparent !important;
+  color: var(--theme-primary) !important;
+  border: 1px solid var(--theme-primary) !important;
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem 0;
+}
+
+body.hakka-theme .theme-button-outline:hover {
+  background: var(--theme-bg) !important;
+  color: #fff !important;
+}
+
+body.hakka-theme .badge {
+  background: var(--theme-third, --theme-third) !important;
+  color: #fff !important;
+}
+
+body.hakka-theme .badge.secondary {
+  background: var(--theme-fourth, --theme-fourth) !important;
+  color: var(--theme-primary) !important;
+}
+body.hakka-theme [data-slot="toggle"] {
+  border: 1px solid rgba(209, 213, 219, 0.4) !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  transition: all 0.2s ease !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+  padding: 0.75rem 1rem !important;
+  margin: 0.5rem 0.25rem !important;
+}
+
+body.hakka-theme [data-slot="toggle"][data-state="on"] {
+  border: 1px solid rgba(209, 213, 219, 0.4) !important;
+  border-radius: 8px !important;
+  color: #fff;
+  background: var(--theme-primary) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  transition: all 0.2s ease !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+  padding: 0.75rem 1rem !important;
+  margin: 0.5rem 0.25rem !important;
+}
+
+body.hakka-theme input,
+body.hakka-theme textarea,
+body.hakka-theme select {
+  border: 1px solid var(--theme-primary) !important;
+  background: #fafffd !important;
+  color: var(--theme-title) !important;
+}
+
 /* 主題選取選單專用樣式 - 不受主題影響 */
 .theme-selector-trigger,
 .theme-selector-trigger[data-slot="select-trigger"] {
@@ -634,6 +732,15 @@ html {
 
 .synology-theme .theme-banner {
   background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+  border-bottom: 1px solid rgba(0, 102, 204, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 102, 204, 0.05);
+  color: white;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+.hakka-theme .theme-banner {
+  background: linear-gradient(135deg, #145DA0 0%, #145DA0 100%);
   border-bottom: 1px solid rgba(0, 102, 204, 0.2);
   box-shadow: 0 1px 3px rgba(0, 102, 204, 0.05);
   color: white;

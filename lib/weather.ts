@@ -4,6 +4,8 @@ export interface WeatherData {
   temperature: number
   weather: string
   dayOfWeek: string
+  relativeHumidity: number
+  precipitationHour: number
 }
 
 export async function getWeatherData(): Promise<WeatherData> {
@@ -36,6 +38,8 @@ export async function getWeatherData(): Promise<WeatherData> {
     const weatherElement = station.WeatherElement
     let temperature = 25 // 預設溫度
     let weather = '晴時多雲' // 預設天氣
+    let relativeHumidity = 70 // 預設濕度
+    let precipitationHour = 0 // 預設降雨量 mm
 
     // 獲取當前溫度
     if (weatherElement.AirTemperature && weatherElement.AirTemperature !== '-99') {
@@ -48,6 +52,17 @@ export async function getWeatherData(): Promise<WeatherData> {
       }
     }
 
+    // 濕度
+    if (weatherElement.RelativeHumidity && weatherElement.RelativeHumidity !== '-99') {
+      relativeHumidity = parseFloat(weatherElement.RelativeHumidity)
+    }
+
+    // 一小時降雨量
+    if (weatherElement.Precipitation && weatherElement.Precipitation !== '-99') {
+      precipitationHour = parseFloat(weatherElement.Precipitation)
+    }
+
+    // (已移除 UVIndex)
     // 獲取天氣狀況
     if (weatherElement.Weather) {
       weather = weatherElement.Weather
@@ -62,7 +77,9 @@ export async function getWeatherData(): Promise<WeatherData> {
     return {
       temperature,
       weather,
-      dayOfWeek
+      dayOfWeek,
+      relativeHumidity,
+      precipitationHour
     }
 
   } catch (error) {
@@ -74,10 +91,11 @@ export async function getWeatherData(): Promise<WeatherData> {
 function getDefaultWeatherData(): WeatherData {
   const today = new Date()
   const dayOfWeek = ['日', '一', '二', '三', '四', '五', '六'][today.getDay()]
-  
   return {
     temperature: 25,
     weather: '晴時多雲',
-    dayOfWeek
+    dayOfWeek,
+    relativeHumidity: 70,
+    precipitationHour: 0
   }
 }

@@ -44,7 +44,7 @@ function HomePageContent() {
       <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         {/* 主題選取選單 - 浮動在右下角 */}
         <div className="fixed bottom-4 right-4 z-50">
-          <Select value={theme} onValueChange={(value: "mario" | "synology") => setTheme(value)}>
+          <Select value={theme} onValueChange={(value: "mario" | "synology" | "hakka") => setTheme(value)}>
             <SelectTrigger className="theme-selector-trigger border-0 bg-transparent w-[120px] sm:w-[140px] shadow-lg rounded-md">
               <Palette className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
               <SelectValue />
@@ -52,6 +52,7 @@ function HomePageContent() {
             <SelectContent>
               <SelectItem value="mario">Mario</SelectItem>
               <SelectItem value="synology">Synology</SelectItem>
+              <SelectItem value="hakka">Hakka</SelectItem>
             </SelectContent>
           </Select>
         </div>
