@@ -134,15 +134,18 @@ html {
   }
 }
 
-.hakka-theme {
---theme-primary: #145DA0;
---theme-secondary: #F7B2AD;
---theme-third: #E28413;
---theme-fourth: #A0C4B0;
---theme-bg: #F7F9FA;
---theme-title: #145DA0;
+.hakka-theme, body.hakka-theme {
+  --theme-primary: #53B4E9;
+  --theme-secondary: #F9B3C0;
+  --theme-third: #FFD801;
+  --theme-fourth: #4A9156;
+  --theme-fifth: #BE93D4;
+  --theme-bg: #289DE2; /* 藍底 */
+  --theme-title: #53B4E9;
+  /* 背景回復為純白 */
+  background-color: #fff !important;
+  background-image: none !important;
 }
-
 
 
 /* Mario Theme - Flat Modern Design */
@@ -493,7 +496,6 @@ html {
     right: 10px;
   }
 
-
 }
 
 /* Mario-style animations - Subtle */
@@ -610,13 +612,10 @@ html {
 
 /* Hakaa Theme - Flat Modern Design */
 body.hakka-theme .theme-card {
-  background: var(--theme-bg) !important;
-  border: 2px solid var(--theme-bg) !important;
+  background: #ffffff !important;
+  border: 1px solid var(--theme-primary) !important;
   border-radius: 12px !important;
-  box-shadow: 0 1px 3px 0 rgba(20, 93, 160, 0.08) !important;
-  color: var(--theme-title) !important;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px 0 rgba(83, 180, 233, 0.10) !important;
   margin-bottom: 1.5rem;
   padding: 1.5rem;
   transition: all 0.3s ease;
@@ -637,6 +636,20 @@ body.hakka-theme .theme-button {
   font-weight: bold !important;
   padding: 0.75rem 1.5rem;
   margin: 0.5rem 0;
+  box-shadow: 0 2px 6px 0 rgba(83, 180, 233, 0.09) !important;
+  transition: all 0.18s;
+}
+
+body.hakka-theme .theme-button:hover {
+  background: var(--theme-secondary) !important; /* hover 草綠 */
+  color: #fff !important;
+  border-color: var(--theme-fourth) !important;
+}
+
+body.hakka-theme .theme-button:active {
+  background: var(--theme-secondary) !important; /* 點綴黃 */
+  color: #247493 !important;
+  border-color: var(--theme-third) !important;
 }
 
 body.hakka-theme .theme-button-outline {
@@ -648,18 +661,34 @@ body.hakka-theme .theme-button-outline {
 }
 
 body.hakka-theme .theme-button-outline:hover {
-  background: var(--theme-bg) !important;
+  background: var(--theme-secondary) !important; /* hover 桃粉 */
+  color: #247493 !important;
+  border-color: var(--theme-secondary) !important;
+}
+
+body.hakka-theme .theme-button-outline:active {
+  background: var(--theme-fifth) !important; /* 柔紫 */
   color: #fff !important;
+  border-color: var(--theme-fifth) !important;
 }
 
 body.hakka-theme .badge {
-  background: var(--theme-third, --theme-third) !important;
+  background: var(--theme-primary) !important; /* 湖水藍 */
   color: #fff !important;
 }
 
 body.hakka-theme .badge.secondary {
-  background: var(--theme-fourth, --theme-fourth) !important;
-  color: var(--theme-primary) !important;
+  background: var(--theme-fourth) !important; /* 草綠 */
+  color: #fff !important;
+}
+
+body.hakka-theme .badge.highlight {
+  background: var(--theme-third) !important; /* 點綴黃 */
+  color: #247493 !important;
+}
+body.hakka-theme .badge.flower {
+  background: var(--theme-fifth) !important; /* 柔紫 */
+  color: #fff !important;
 }
 body.hakka-theme [data-slot="toggle"] {
   border: 1px solid rgba(209, 213, 219, 0.4) !important;
@@ -740,12 +769,25 @@ body.hakka-theme select {
 }
 
 .hakka-theme .theme-banner {
-  background: linear-gradient(135deg, #145DA0 0%, #145DA0 100%);
-  border-bottom: 1px solid rgba(0, 102, 204, 0.2);
-  box-shadow: 0 1px 3px rgba(0, 102, 204, 0.05);
-  color: white;
+  background: #53B4E9;
+  box-shadow: 0 1px 3px rgba(73, 73, 73, 0.06);
+  color: #fff;
   padding: 2rem 0;
   margin-bottom: 2rem;
+}
+
+body.hakka-theme .badge,
+body.hakka-theme .badge.secondary,
+body.hakka-theme .badge.highlight,
+body.hakka-theme .badge.flower {
+  padding: 0.5rem 1rem !important;
+  margin: 0.25rem !important;
+}
+body.hakka-theme input,
+body.hakka-theme textarea,
+body.hakka-theme select {
+  padding: 0.75rem !important;
+  margin: 0.5rem 0 !important;
 }
 
 /* Mario 主題的蘑菇裝飾樣式 */
@@ -776,4 +818,47 @@ body.hakka-theme select {
 
 .synology-theme .space-y-2 > * + * {
   margin-top: 0.5rem;
+}
+
+.hakka-theme .space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.hakka-theme .space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.hakka-theme .space-y-2 > * + * {
+  margin-top: 0.5rem;
+}
+
+/* 五組複合 keyframes，每組下落/橫移/旋轉隨機組合 */
+@keyframes sakura-fall-0 {
+  0%   { opacity: 0; transform: translateY(0)   translateX(0)    rotate(0deg);}
+  1%   { opacity: 1; }
+  100% { opacity: 1; transform: translateY(120vh) translateX(40px) rotate(340deg);}
+}
+@keyframes sakura-fall-1 {
+  0%   { opacity: 0; transform: translateY(0)   translateX(0)    rotate(0deg);}
+  1%   { opacity: 1; }
+  65%  { opacity: 1; transform: translateY(65vh) translateX(-30px) rotate(-60deg);}
+  100% { opacity: 1; transform: translateY(120vh) translateX(-70px) rotate(-330deg);}
+}
+@keyframes sakura-fall-2 {
+  0%   { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg);}
+  1%   { opacity: 1; }
+  40%  { opacity: 1; transform: translateY(35vh) translateX(25px) rotate(70deg);}
+  100% { opacity: 1; transform: translateY(120vh) translateX(80px) rotate(350deg);}
+}
+@keyframes sakura-fall-3 {
+  0%   { opacity: 0; transform: translateY(0)   translateX(0) rotate(0deg);}
+  1%   { opacity: 1; }
+  40%  { opacity: 1; transform: translateY(30vh) translateX(-46px) rotate(105deg);}
+  100% { opacity: 1; transform: translateY(120vh) translateX(-95px) rotate(390deg);}
+}
+@keyframes sakura-fall-4 {
+  0%   { opacity: 0; transform: translateY(0)   translateX(0) rotate(0deg);}
+  1%   { opacity: 1; }
+  50%  { opacity: 1; transform: translateY(55vh) translateX(52px) rotate(-100deg);}
+  100% { opacity: 1; transform: translateY(120vh) translateX(130px) rotate(-370deg);}
 }

@@ -106,9 +106,5 @@ function HomePageContent() {
 }
 
 export default function HomePage() {
-  return (
-    <ThemeProvider>
-      <HomePageContent />
-    </ThemeProvider>
-  )
+  return <HomePageContent />
 }
