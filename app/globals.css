@@ -5,12 +5,14 @@
 
 /* 全域字體大小調整 */
 html {
-  font-size: 14px; /* 從預設的 16px 調整為 14px */
+  font-size: 14px;
+  /* 從預設的 16px 調整為 14px */
 }
 
 @media (min-width: 768px) {
   html {
-    font-size: 15px; /* 在桌面版稍微大一點 */
+    font-size: 15px;
+    /* 在桌面版稍微大一點 */
   }
 }
 
@@ -129,344 +131,235 @@ html {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
-.hakka-theme, body.hakka-theme {
+/* ========================
+   主題色定義區 - 全部都用 CSS 變數，主題切換只需覆寫變數即可
+========================= */
+
+:root {
+  --theme-primary: #FF6B35;
+  --theme-primary-hover: #E55A2B;
+  --theme-primary-active: #CC4A1F;
+  --theme-secondary: #FF8C42;
+  --theme-tertiary: #FFD700;
+  --theme-bg: #fff;
+  --theme-title: #FF6B35;
+}
+
+.mario-theme,
+body.mario-theme {
+  --theme-primary: #FF6B35;
+  --theme-primary-hover: #E55A2B;
+  --theme-primary-active: #CC4A1F;
+  --theme-secondary: #FF8C42;
+  --theme-tertiary: #FFD700;
+  --theme-bg: #87CEEB;
+  --theme-title: #FF6B35;
+}
+
+.synology-theme,
+body.synology-theme {
+  --theme-primary: #0066cc;
+  --theme-primary-hover: #0052a3;
+  --theme-primary-active: #004499;
+  --theme-secondary: #F6F6F6;
+  --theme-tertiary: #FFD700;
+  --theme-bg: #e8e8e8;
+  --theme-title: #0066cc;
+}
+
+.hakka-theme,
+body.hakka-theme {
   --theme-primary: #53B4E9;
+  --theme-primary-hover: #309cd6;
+  --theme-primary-active: #2488cb;
   --theme-secondary: #F9B3C0;
-  --theme-third: #FFD801;
-  --theme-fourth: #4A9156;
-  --theme-fifth: #BE93D4;
-  --theme-bg: #289DE2; /* 藍底 */
+  --theme-tertiary: #FFD801;
+  --theme-bg: #289DE2;
   --theme-title: #53B4E9;
-  /* 背景回復為純白 */
-  background-color: #fff !important;
-  background-image: none !important;
 }
 
-
-/* Mario Theme - Flat Modern Design */
-.mario-theme {
-  background: linear-gradient(135deg, #87CEEB 0%, #59c7ed 50%, #4A90E2 100%);
-  min-height: 100vh;
-  position: relative;
-}
-
-.mario-theme .container {
-  position: relative;
-  z-index: 1;
-  padding: 2rem 0;
-}
-
-.mario-theme .theme-title {
-  color: #ffffff;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: bold;
-}
-
-/* Mario theme card titles and headings */
-.mario-theme [data-slot="card-title"],
-.mario-theme .card-title,
-.mario-theme h2,
-.mario-theme h3 {
-  color: #FF6B35 !important;
-  font-weight: bold;
-  text-shadow: 0 1px 2px rgba(255, 107, 53, 0.1);
-}
-
-/* Mario theme dialog titles */
-.mario-theme [data-slot="dialog-title"] {
-  color: #FF6B35 !important;
-  font-weight: bold;
-  text-shadow: 0 1px 2px rgba(255, 107, 53, 0.1);
-}
-
-/* Mario theme sheet titles */
-.mario-theme [data-slot="sheet-title"] {
-  color: #FF6B35 !important;
-  font-weight: bold;
-  text-shadow: 0 1px 2px rgba(255, 107, 53, 0.1);
-}
-
-
-
-.mario-theme .theme-card {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 140, 0, 0.4);
+/* ========== 共用 UI 組件樣式 ========== */
+.theme-card {
+  background: var(#fff);
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  position: relative;
-  z-index: 2;
+  box-shadow: 0 2px 8px 0 rgba(50, 50, 80, 0.10);
   margin-bottom: 1.5rem;
   padding: 1.5rem;
-}
-
-.mario-theme .theme-button {
-  background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
-  border: 1px solid rgba(255, 107, 53, 0.4);
-  border-radius: 8px;
-  color: white;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  padding: 0.75rem 1.5rem;
-  margin: 0.5rem 0;
-}
-
-.mario-theme .theme-button:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(135deg, #E55A2B 0%, #FF7A3A 100%);
-}
-
-.mario-theme .theme-button:active {
-  transform: translateY(1px);
-  background: linear-gradient(135deg, #CC4A1F 0%, #E55A2B 100%);
-}
-
-.mario-theme .theme-button:disabled {
-  background: rgba(255, 107, 53, 0.8) !important;
-  color: rgba(255, 255, 255, 0.5) !important;
-  cursor: not-allowed !important;
-  border-color: rgba(255, 107, 53, 0.2) !important;
-}
-
-.mario-theme .theme-button-outline {
-  background: transparent;
-  border: 1px solid rgba(255, 107, 53, 0.6);
-  border-radius: 8px;
-  color: #FF6B35;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  padding: 0.75rem 1.5rem;
-  margin: 0.5rem 0;
-}
-
-.mario-theme .theme-button-outline:hover {
-  background: rgba(255, 107, 53, 0.1); 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.mario-theme .theme-button-outline:active {
-  transform: translateY(1px);
-  background: rgba(255, 107, 53, 0.2);
-  color: #E55A2B;
-}
-
-/* Mario-inspired card hover effects */
-.mario-theme .theme-card:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  border-color: rgba(255, 140, 0, 0.6);
-}
-
-/* Mario-style tabs */
-.mario-theme .tabs-list {
-  background: linear-gradient(135deg, #0066FF 0%, #0044CC 100%);
-  border-radius: 8px;
-  padding: 6px;
+  transition: box-shadow 0.3s, border-color 0.2s;
   position: relative;
   z-index: 2;
-  margin: 1rem 0;
 }
 
-.mario-theme .tabs-trigger {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border-radius: 6px;
+.mario-theme .theme-card,
+.hakka-theme .theme-card {
+  border: 1px solid var(--theme-primary);
+}
+
+.synology-theme .theme-card {
+  border: none;
+}
+
+.theme-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: var(--theme-primary-hover, var(--theme-primary));
+}
+
+.theme-title,
+[data-slot="card-title"],
+.card-title,
+h2,
+h3 {
+  color: var(--theme-title, var(--theme-primary)) !important;
   font-weight: bold;
-  transition: all 0.2s ease;
-  padding: 0.75rem 1.5rem;
-  margin: 0 0.25rem;
 }
 
-.mario-theme .tabs-trigger[data-state="active"] {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-  color: #8B0000;
-  box-shadow: 0 1px 3px rgba(255, 215, 0, 0.3);
-}
-
-.mario-theme .tabs-trigger:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Mario-style inputs */
-.mario-theme input,
-.mario-theme textarea,
-.mario-theme select {
-  border: 1px solid rgba(255, 140, 0, 0.4);
+.theme-button {
+  background: var(--theme-primary);
+  border: 1px solid var(--theme-primary);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.95);
-  transition: all 0.2s ease;
+  color: #fff;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem 0;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.theme-button:hover {
+  background: var(--theme-primary-hover);
+  border-color: var(--theme-primary-hover);
+}
+
+.theme-button:active {
+  background: var(--theme-primary-active);
+  border-color: var(--theme-primary-active);
+}
+
+.theme-button:disabled {
+  background: var(--theme-primary, #9998) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+  cursor: not-allowed !important;
+  border-color: var(--theme-primary, #9994) !important;
+}
+
+.theme-button-outline {
+  background: transparent;
+  color: var(--theme-primary);
+  border: 1px solid var(--theme-primary);
+  border-radius: 8px;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem 0;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.theme-button-outline:hover {
+  background: var(--theme-secondary, #eee);
+  color: var(--theme-primary-hover);
+  border-color: var(--theme-secondary, #eee);
+}
+
+.theme-button-outline:active {
+  background: var(--theme-tertiary, #eee);
+  color: #fff;
+  border-color: var(--theme-tertiary, #eee);
+}
+
+input,
+textarea,
+select {
+  border: 1px solid var(--theme-primary, #333);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--theme-title, #444);
   padding: 0.75rem;
   margin: 0.5rem 0;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.mario-theme input:focus,
-.mario-theme textarea:focus,
-.mario-theme select:focus {
-  border-color: rgba(255, 140, 0, 0.7);
-  box-shadow: 0 0 8px rgba(255, 140, 0, 0.2);
-  transform: scale(1.01);
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--theme-primary-hover, #999);
+  box-shadow: 0 0 8px var(--theme-primary-hover, #9993);
+  outline: none;
 }
 
-/* Mario-style Select components */
-.mario-theme [data-slot="select-trigger"] {
-  border: 1px solid rgba(255, 140, 0, 0.4) !important;
+[data-slot="select-trigger"] {
+  border: 1px solid var(--theme-primary, #333) !important;
   border-radius: 8px !important;
-  background: rgba(255, 255, 255, 0.95) !important;
+  background: #fff !important;
   transition: all 0.2s ease !important;
   padding: 0.75rem !important;
   margin: 0.5rem 0 !important;
 }
 
-.mario-theme [data-slot="select-trigger"]:focus,
-.mario-theme [data-slot="select-trigger"]:focus-visible {
-  border-color: rgba(255, 140, 0, 0.7) !important;
-  box-shadow: 0 0 8px rgba(255, 140, 0, 0.2) !important;
-  transform: scale(1.01) !important;
+[data-slot="select-trigger"]:focus,
+[data-slot="select-trigger"]:focus-visible {
+  border-color: var(--theme-primary-hover, #999) !important;
+  box-shadow: 0 0 8px var(--theme-primary-hover, #9993) !important;
 }
 
-.mario-theme [data-slot="select-trigger"]:hover {
-  border-color: rgba(255, 140, 0, 0.6) !important;
-  background: rgba(255, 255, 255, 1) !important;
+[data-slot="select-trigger"]:hover {
+  border-color: var(--theme-primary-hover, #999) !important;
+  background: #fff !important;
 }
 
-/* Mario-style badges and labels */
-.mario-theme .badge {
-  background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
-  color: white;
+.badge {
+  background: var(--theme-primary);
+  color: #fff;
   border-radius: 6px;
   font-weight: bold;
   padding: 0.5rem 1rem;
   margin: 0.25rem;
 }
 
-.mario-theme .badge.secondary {
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-  color: #8B0000;
+.badge.secondary {
+  background: var(--theme-secondary);
+  color: #fff;
 }
 
-/* Synology Theme - Flat Modern Design */
-.synology-theme {
-  background: linear-gradient(135deg, rgba(245, 245, 245, 0.95) 0%, rgba(232, 232, 232, 0.95) 100%);
-  min-height: 100vh;
-  color: #333;
-  position: relative;
+.badge.tertiary {
+  background: var(--theme-tertiary);
+  color: #fff;
 }
 
-.synology-theme::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(0, 102, 204, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(0, 102, 204, 0.02) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(0, 102, 204, 0.01) 0%, transparent 50%);
-  pointer-events: none;
-  z-index: 0;
+.theme-banner {
+  background: var(--theme-primary);
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(73, 73, 73, 0.06);
+  padding: 2rem 0;
+  margin-bottom: 2rem;
 }
 
-.synology-theme .theme-title {
-  color: #0066cc;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-weight: 600;
+.space-y-6>*+* {
+  margin-top: 1.5rem;
 }
 
-.synology-theme .theme-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(209, 213, 219, 0.2);
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1.5rem;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
+.space-y-4>*+* {
+  margin-top: 1rem;
 }
 
-.synology-theme .theme-button {
-  background: #0066cc;
-  border: 1px solid rgba(0, 102, 204, 0.4);
-  border-radius: 6px;
-  color: white;
-  font-weight: 500;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  transition: all 0.2s ease;
-  padding: 0.75rem 1.5rem;
-  margin: 0.5rem 0;
+.space-y-2>*+* {
+  margin-top: 0.5rem;
 }
 
-.synology-theme .theme-button:hover {
-  background: #0052a3;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
+/* RWD 共用調整 */
+@media (max-width: 768px) {
+  .theme-title {
+    font-size: 1.5rem;
+  }
 
-.synology-theme .theme-button:disabled {
-  background: rgba(0, 102, 204, 0.8) !important;
-  color: rgba(255, 255, 255, 0.5) !important;
-  cursor: not-allowed !important;
-  border-color: rgba(0, 102, 204, 0.2) !important;
-}
-
-.synology-theme .theme-button-outline {
-  background: transparent;
-  border: 1px solid rgba(0, 102, 204, 0.4);
-  border-radius: 6px;
-  color: #0066cc;
-  font-weight: 500;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  transition: all 0.2s ease;
-  padding: 0.75rem 1.5rem;
-  margin: 0.5rem 0;
-}
-
-.synology-theme .theme-button-outline:hover {
-  background: #f6f6f6;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.synology-theme .theme-button-outline:active {
-  background: #0052a3;
-  color: white;
-  transform: translateY(1px);
-}
-
-/* Synology-style card hover effects */
-.synology-theme .theme-card:hover {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-color: rgba(0, 102, 204, 0.3);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 102, 204, 0.05);
-  transform: translateY(-2px);
-}
-
-/* Synology-style Select components */
-.synology-theme [data-slot="select-trigger"] {
-  border: 1px solid rgba(209, 213, 219, 0.4) !important;
-  border-radius: 8px !important;
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  transition: all 0.2s ease !important;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
-  padding: 0.75rem !important;
-  margin: 0.5rem 0 !important;
-}
-
-.synology-theme [data-slot="select-trigger"]:focus,
-.synology-theme [data-slot="select-trigger"]:focus-visible {
-  border-color: rgba(0, 102, 204, 0.6) !important;
-  box-shadow: 0 0 0 1px rgba(0, 102, 204, 0.1) !important;
-}
-
-.synology-theme [data-slot="select-trigger"]:hover {
-  border-color: rgba(0, 102, 204, 0.5) !important;
-  background: #f8f9fa !important;
+  .theme-card,
+  .theme-button,
+  .theme-button-outline {
+    border-radius: 10px !important;
+  }
 }
 
 /* Responsive adjustments */
@@ -500,6 +393,7 @@ html {
 
 /* Mario-style animations - Subtle */
 @keyframes mario-bounce {
+
   0%,
   20%,
   50%,
@@ -507,9 +401,11 @@ html {
   100% {
     transform: translateY(0);
   }
+
   40% {
     transform: translateY(-2px);
   }
+
   60% {
     transform: translateY(-1px);
   }
@@ -524,6 +420,7 @@ html {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -548,182 +445,68 @@ html {
   filter: drop-shadow(1px 1px 2px rgba(0, 102, 204, 0.1));
 }
 
-/* Mario-style Toggle components */
-.mario-theme [data-slot="toggle"] {
-  border: 1px solid rgba(255, 140, 0, 0.4) !important;
+/* 共用 Toggle 組件（各主題可調變數即可） */
+[data-slot="toggle"] {
+  border: 1px solid var(--toggle-border, var(--theme-primary, #bbb));
   border-radius: 8px !important;
-  background: rgba(255, 255, 255, 0.95) !important;
-  transition: all 0.2s ease !important;
+  background: var(--toggle-bg, #fff);
   font-weight: bold !important;
-  padding: 0.75rem 1rem !important;
-  margin: 0.5rem 0.25rem !important;
-}
-
-.mario-theme [data-slot="toggle"][data-state="on"] {
-  background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%) !important;
-  color: #ffffff !important;
-  box-shadow: 0 1px 3px rgba(255, 107, 53, 0.2) !important;
-}
-
-.mario-theme [data-slot="toggle"]:hover {
-  border-color: rgba(255, 140, 0, 0.6) !important;
-  background: rgba(255, 140, 0, 0.1) !important;
-  transform: scale(1.01) !important;
-}
-
-.mario-theme [data-slot="toggle"][data-state="on"]:hover {
-  background: linear-gradient(135deg, #E55A2B 0%, #FF7A3A 100%) !important;
-  color: #ffffff !important;
-  transform: scale(1.01) !important;
-}
-
-/* Synology-style Toggle components */
-.synology-theme [data-slot="toggle"] {
-  border: 1px solid rgba(209, 213, 219, 0.4) !important;
-  border-radius: 8px !important;
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
   transition: all 0.2s ease !important;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
   padding: 0.75rem 1rem !important;
   margin: 0.5rem 0.25rem !important;
+  box-sizing: border-box;
 }
 
-.synology-theme [data-slot="toggle"][data-state="on"] {
-  background: #0066cc !important;
-  color: white !important;
-  border-color: rgba(0, 102, 204, 0.4) !important;
-  box-shadow: 0 1px 3px rgba(0, 102, 204, 0.1) !important;
+[data-slot="toggle"][data-state="on"] {
+  background: var(--toggle-on-bg, linear-gradient(135deg, var(--theme-primary) 0%, var(--theme-secondary, #FF8C42) 100%));
+  color: var(--toggle-on-color, #fff) !important;
+  box-shadow: 0 1px 3px var(--toggle-on-shadow, rgba(0, 0, 0, 0.10)) !important;
+  border-color: var(--toggle-on-border, var(--theme-primary));
 }
 
-.synology-theme [data-slot="toggle"]:hover {
-  border-color: rgba(0, 102, 204, 0.5) !important;
-  background: #f0f8ff !important;
+[data-slot="toggle"]:hover {
+  border-color: var(--toggle-hover-border, var(--theme-primary-hover, #888)) !important;
+  background: var(--toggle-hover-bg, var(--theme-secondary, #fafafc)) !important;
   transform: scale(1.01) !important;
 }
 
-.synology-theme [data-slot="toggle"][data-state="on"]:hover {
-  background: #0052a3 !important;
-  color: #ffffff !important;
+[data-slot="toggle"][data-state="on"]:hover {
+  background: var(--toggle-on-hover-bg, var(--theme-primary-hover, var(--theme-primary))) !important;
+  color: var(--toggle-on-hover-color, #fff) !important;
   transform: scale(1.01) !important;
 }
 
-
-/* Hakaa Theme - Flat Modern Design */
-body.hakka-theme .theme-card {
-  background: #ffffff !important;
-  border: 1px solid var(--theme-primary) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 2px 8px 0 rgba(83, 180, 233, 0.10) !important;
-  margin-bottom: 1.5rem;
-  padding: 1.5rem;
-  transition: all 0.3s ease;
+/* 主題自訂化 (可選) */
+.mario-theme {
+  --toggle-border: rgba(255, 140, 0, 0.4);
+  --toggle-bg: rgba(255, 255, 255, 0.95);
+  --toggle-hover-border: rgba(255, 140, 0, 0.6);
+  --toggle-on-bg: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+  --toggle-on-shadow: 0 1px 3px rgba(255, 107, 53, 0.2);
+  --toggle-on-hover-bg: linear-gradient(135deg, #E55A2B 0%, #FF7A3A 100%);
 }
 
-body.hakka-theme .theme-title,
-body.hakka-theme [data-slot="card-title"],
-body.hakka-theme .card-title {
-  color: var(--theme-title) !important;
-  font-weight: bold !important;
+.synology-theme {
+  --toggle-border: rgba(209, 213, 219, 0.4);
+  --toggle-bg: rgba(255, 255, 255, 0.9);
+  --toggle-hover-border: rgba(0, 102, 204, 0.5);
+  --toggle-on-bg: #0066cc;
+  --toggle-on-shadow: 0 1px 3px rgba(0, 102, 204, 0.1);
+  --toggle-on-hover-bg: #0052a3;
+  --toggle-on-border: rgba(0, 102, 204, 0.4);
 }
 
-body.hakka-theme .theme-button {
-  background: var(--theme-primary) !important;
-  color: #fff !important;
-  border: 2px solid var(--theme-primary) !important;
-  border-radius: 8px !important;
-  font-weight: bold !important;
-  padding: 0.75rem 1.5rem;
-  margin: 0.5rem 0;
-  box-shadow: 0 2px 6px 0 rgba(83, 180, 233, 0.09) !important;
-  transition: all 0.18s;
+.hakka-theme {
+  --toggle-border: var(--theme-primary);
+  --toggle-bg: #f4fbff;
+  --toggle-hover-border: var(--theme-primary-hover);
+  --toggle-on-bg: var(--theme-primary);
+  --toggle-on-shadow: 0 1px 3px #9ee3fd33;
+  --toggle-on-hover-bg: var(--theme-primary-hover);
+  --toggle-on-border: var(--theme-primary-hover);
 }
 
-body.hakka-theme .theme-button:hover {
-  background: var(--theme-secondary) !important; /* hover 草綠 */
-  color: #fff !important;
-  border-color: var(--theme-fourth) !important;
-}
-
-body.hakka-theme .theme-button:active {
-  background: var(--theme-secondary) !important; /* 點綴黃 */
-  color: #247493 !important;
-  border-color: var(--theme-third) !important;
-}
-
-body.hakka-theme .theme-button-outline {
-  background: transparent !important;
-  color: var(--theme-primary) !important;
-  border: 1px solid var(--theme-primary) !important;
-  padding: 0.75rem 1.5rem;
-  margin: 0.5rem 0;
-}
-
-body.hakka-theme .theme-button-outline:hover {
-  background: var(--theme-secondary) !important; /* hover 桃粉 */
-  color: #247493 !important;
-  border-color: var(--theme-secondary) !important;
-}
-
-body.hakka-theme .theme-button-outline:active {
-  background: var(--theme-fifth) !important; /* 柔紫 */
-  color: #fff !important;
-  border-color: var(--theme-fifth) !important;
-}
-
-body.hakka-theme .badge {
-  background: var(--theme-primary) !important; /* 湖水藍 */
-  color: #fff !important;
-}
-
-body.hakka-theme .badge.secondary {
-  background: var(--theme-fourth) !important; /* 草綠 */
-  color: #fff !important;
-}
-
-body.hakka-theme .badge.highlight {
-  background: var(--theme-third) !important; /* 點綴黃 */
-  color: #247493 !important;
-}
-body.hakka-theme .badge.flower {
-  background: var(--theme-fifth) !important; /* 柔紫 */
-  color: #fff !important;
-}
-body.hakka-theme [data-slot="toggle"] {
-  border: 1px solid rgba(209, 213, 219, 0.4) !important;
-  border-radius: 8px !important;
-  background: rgba(255, 255, 255, 0.9) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  transition: all 0.2s ease !important;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
-  padding: 0.75rem 1rem !important;
-  margin: 0.5rem 0.25rem !important;
-}
-
-body.hakka-theme [data-slot="toggle"][data-state="on"] {
-  border: 1px solid rgba(209, 213, 219, 0.4) !important;
-  border-radius: 8px !important;
-  color: #fff;
-  background: var(--theme-primary) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
-  transition: all 0.2s ease !important;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
-  padding: 0.75rem 1rem !important;
-  margin: 0.5rem 0.25rem !important;
-}
-
-body.hakka-theme input,
-body.hakka-theme textarea,
-body.hakka-theme select {
-  border: 1px solid var(--theme-primary) !important;
-  background: #fafffd !important;
-  color: var(--theme-title) !important;
-}
-
-/* 主題選取選單專用樣式 - 不受主題影響 */
+/* 主題選單樣式仍保留，僅簡化 hakka 按鈕/卡片覆蓋，剩餘通用交給 .theme-button/.theme-card 等類處理。 */
 .theme-selector-trigger,
 .theme-selector-trigger[data-slot="select-trigger"] {
   border: none !important;
@@ -776,89 +559,145 @@ body.hakka-theme select {
   margin-bottom: 2rem;
 }
 
-body.hakka-theme .badge,
-body.hakka-theme .badge.secondary,
-body.hakka-theme .badge.highlight,
-body.hakka-theme .badge.flower {
-  padding: 0.5rem 1rem !important;
-  margin: 0.25rem !important;
-}
-body.hakka-theme input,
-body.hakka-theme textarea,
-body.hakka-theme select {
-  padding: 0.75rem !important;
-  margin: 0.5rem 0 !important;
-}
-
 /* Mario 主題的蘑菇裝飾樣式 */
 .mario-mushroom-decoration {
   filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.1));
 }
 
 /* 整體間距優化 */
-.mario-theme .space-y-6 > * + * {
+.mario-theme .space-y-6>*+* {
   margin-top: 1.5rem;
 }
 
-.mario-theme .space-y-4 > * + * {
+.mario-theme .space-y-4>*+* {
   margin-top: 1rem;
 }
 
-.mario-theme .space-y-2 > * + * {
+.mario-theme .space-y-2>*+* {
   margin-top: 0.5rem;
 }
 
-.synology-theme .space-y-6 > * + * {
+.synology-theme .space-y-6>*+* {
   margin-top: 1.5rem;
 }
 
-.synology-theme .space-y-4 > * + * {
+.synology-theme .space-y-4>*+* {
   margin-top: 1rem;
 }
 
-.synology-theme .space-y-2 > * + * {
+.synology-theme .space-y-2>*+* {
   margin-top: 0.5rem;
 }
 
-.hakka-theme .space-y-6 > * + * {
+.hakka-theme .space-y-6>*+* {
   margin-top: 1.5rem;
 }
 
-.hakka-theme .space-y-4 > * + * {
+.hakka-theme .space-y-4>*+* {
   margin-top: 1rem;
 }
 
-.hakka-theme .space-y-2 > * + * {
+.hakka-theme .space-y-2>*+* {
   margin-top: 0.5rem;
 }
 
 /* 五組複合 keyframes，每組下落/橫移/旋轉隨機組合 */
 @keyframes sakura-fall-0 {
-  0%   { opacity: 0; transform: translateY(0)   translateX(0)    rotate(0deg);}
-  1%   { opacity: 1; }
-  100% { opacity: 1; transform: translateY(120vh) translateX(40px) rotate(340deg);}
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(120vh) translateX(40px) rotate(340deg);
+  }
 }
+
 @keyframes sakura-fall-1 {
-  0%   { opacity: 0; transform: translateY(0)   translateX(0)    rotate(0deg);}
-  1%   { opacity: 1; }
-  65%  { opacity: 1; transform: translateY(65vh) translateX(-30px) rotate(-60deg);}
-  100% { opacity: 1; transform: translateY(120vh) translateX(-70px) rotate(-330deg);}
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  65% {
+    opacity: 1;
+    transform: translateY(65vh) translateX(-30px) rotate(-60deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(120vh) translateX(-70px) rotate(-330deg);
+  }
 }
+
 @keyframes sakura-fall-2 {
-  0%   { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg);}
-  1%   { opacity: 1; }
-  40%  { opacity: 1; transform: translateY(35vh) translateX(25px) rotate(70deg);}
-  100% { opacity: 1; transform: translateY(120vh) translateX(80px) rotate(350deg);}
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  40% {
+    opacity: 1;
+    transform: translateY(35vh) translateX(25px) rotate(70deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(120vh) translateX(80px) rotate(350deg);
+  }
 }
+
 @keyframes sakura-fall-3 {
-  0%   { opacity: 0; transform: translateY(0)   translateX(0) rotate(0deg);}
-  1%   { opacity: 1; }
-  40%  { opacity: 1; transform: translateY(30vh) translateX(-46px) rotate(105deg);}
-  100% { opacity: 1; transform: translateY(120vh) translateX(-95px) rotate(390deg);}
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  40% {
+    opacity: 1;
+    transform: translateY(30vh) translateX(-46px) rotate(105deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(120vh) translateX(-95px) rotate(390deg);
+  }
 }
+
 @keyframes sakura-fall-4 {
-  0%   { opacity: 0; transform: translateY(0)   translateX(0) rotate(0deg);}
-  1%   { opacity: 1; }
-  50%  { opacity: 1; transform: translateY(55vh) translateX(52px) rotate(-100deg);}
-  100% { opacity: 1; transform: translateY(120vh) translateX(130px) rotate(-370deg);}
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(55vh) translateX(52px) rotate(-100deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(120vh) translateX(130px) rotate(-370deg);
+  }
 }

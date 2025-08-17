@@ -43,15 +43,15 @@ interface History {
   isRaining: boolean
 }
 
-        interface StockInfo {
-          id: string
-          name: string
-          price: string
-          change: string
-          changePercent: string
-          volume: string
-          priceChange: string
-        }
+interface StockInfo {
+  id: string
+  name: string
+  price: string
+  change: string
+  changePercent: string
+  volume: string
+  priceChange: string
+}
 
 // 體感溫度 (Heat Index) 計算
 function calcHeatIndex(temp: number, rh: number) {
@@ -303,32 +303,32 @@ export default function SelectionPage() {
 
             <div>
               <Label className="mb-3 block">是否下雨</Label>
-                          <div className="flex gap-2 mt-2">
-              <Toggle
-                pressed={isRaining === "no"}
-                onPressedChange={(pressed) => setIsRaining(pressed ? "no" : "")}
-                className="justify-center px-2 sm:px-4 py-2 text-sm flex-1"
-                variant="outline"
-              >
-                <div className="flex items-center gap-1 sm:gap-2">
-                  {theme === "mario" ? "☀️" : <Sun className="w-3 h-3 sm:w-4 sm:h-4" />}
-                  <span className="hidden sm:inline">否</span>
-                  <span className="sm:hidden">否</span>
-                </div>
-              </Toggle>
-              <Toggle
-                pressed={isRaining === "yes"}
-                onPressedChange={(pressed) => setIsRaining(pressed ? "yes" : "")}
-                className="justify-center px-2 sm:px-4 py-2 text-sm flex-1"
-                variant="outline"
-              >
-                <div className="flex items-center gap-1 sm:gap-2">
-                  {theme === "mario" ? "🌧️" : <CloudRain className="w-3 h-3 sm:w-4 sm:h-4" />}
-                  <span className="hidden sm:inline">是</span>
-                  <span className="sm:hidden">是</span>
-                </div>
-              </Toggle>
-            </div>
+              <div className="flex gap-2 mt-2">
+                <Toggle
+                  pressed={isRaining === "no"}
+                  onPressedChange={(pressed) => setIsRaining(pressed ? "no" : "")}
+                  className="justify-center px-2 sm:px-4 py-2 text-sm flex-1"
+                  variant="outline"
+                >
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    {theme === "mario" ? "☀️" : <Sun className="w-3 h-3 sm:w-4 sm:h-4" />}
+                    <span className="hidden sm:inline">否</span>
+                    <span className="sm:hidden">否</span>
+                  </div>
+                </Toggle>
+                <Toggle
+                  pressed={isRaining === "yes"}
+                  onPressedChange={(pressed) => setIsRaining(pressed ? "yes" : "")}
+                  className="justify-center px-2 sm:px-4 py-2 text-sm flex-1"
+                  variant="outline"
+                >
+                  <div className="flex items-center gap-1 sm:gap-2">
+                    {theme === "mario" ? "🌧️" : <CloudRain className="w-3 h-3 sm:w-4 sm:h-4" />}
+                    <span className="hidden sm:inline">是</span>
+                    <span className="sm:hidden">是</span>
+                  </div>
+                </Toggle>
+              </div>
             </div>
 
             <div>
@@ -343,11 +343,11 @@ export default function SelectionPage() {
                     </TooltipTrigger>
                     <TooltipContent side="right" align="start">
                       步行距離
-                        <ul className="pl-2 space-y-1">
-                          <li>• 附近吃: 距離 0.5 公里以內</li>
-                          <li>• 走一小段: 距離 1 公里以內</li>
-                          <li>• 不想上班: 距離 2 公里以內</li>
-                        </ul>
+                      <ul className="pl-2 space-y-1">
+                        <li>• 附近吃: 距離 0.5 公里以內</li>
+                        <li>• 走一小段: 距離 1 公里以內</li>
+                        <li>• 不想上班: 距離 2 公里以內</li>
+                      </ul>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -445,8 +445,20 @@ export default function SelectionPage() {
             </div>
             <div className="flex-shrink-0 w-full sm:w-auto flex justify-center sm:justify-start">
               <img
-                src={theme === "synology" ? "/images/svs.png" : "/images/mario-hero.png"}
-                alt={theme === "synology" ? "Synology" : "Mario"}
+                src={
+                  theme === "synology"
+                    ? "/images/svs.png"
+                    : theme === "hakka"
+                      ? "/images/hakka.png"
+                      : "/images/mario-hero.png"
+                }
+                alt={
+                  theme === "synology"
+                    ? "Synology"
+                    : theme === "hakka"
+                      ? "Hakka"
+                      : "Mario"
+                }
                 className="w-48 h-24 sm:w-40 sm:h-20 object-contain mario-joke-image"
               />
             </div>
@@ -466,7 +478,7 @@ export default function SelectionPage() {
               const isPositive = stock.changePercent !== '--' && parseFloat(stock.changePercent) > 0
               const isNegative = stock.changePercent !== '--' && parseFloat(stock.changePercent) < 0
               const isUnchanged = stock.changePercent === '--' || parseFloat(stock.changePercent) === 0
-              
+
               return (
                 <div key={stock.id} className="border rounded-lg p-2 sm:p-3 space-y-2 hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
@@ -478,22 +490,20 @@ export default function SelectionPage() {
                     <div className="flex items-center gap-1">
                       {isPositive && <TrendingUp className="w-4 h-4 text-red-600" />}
                       {isNegative && <TrendingDown className="w-4 h-4 text-green-600" />}
-                      <span className={`text-sm font-medium ${
-                        isPositive ? 'text-red-600' : 
-                        isNegative ? 'text-green-600' : 
-                        'text-gray-600'
-                      }`}>
+                      <span className={`text-sm font-medium ${isPositive ? 'text-red-600' :
+                          isNegative ? 'text-green-600' :
+                            'text-gray-600'
+                        }`}>
                         {stock.changePercent !== '--' ? `${stock.changePercent}%` : '--'}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center justify-between text-xs text-gray-500">
                     <span>成交量: {parseInt(stock.volume).toLocaleString()}</span>
-                    <span className={`${
-                      isPositive ? 'text-red-600' : 
-                      isNegative ? 'text-green-600' : 
-                      'text-gray-600'
-                    }`}>
+                    <span className={`${isPositive ? 'text-red-600' :
+                        isNegative ? 'text-green-600' :
+                          'text-gray-600'
+                      }`}>
                       {stock.priceChange !== '--' ? `${parseFloat(stock.priceChange) > 0 ? '+' : ''}${stock.priceChange}` : '--'}
                     </span>
                   </div>
