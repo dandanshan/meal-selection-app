@@ -84,9 +84,9 @@ export default function SelectionPage() {
   useEffect(() => {
     fetchWeatherData()
     fetchStockData()
-    setCurrentJoke(getRandomJoke())
+    setCurrentJoke(getRandomJoke(theme))
     // 進頁面不主動抓 location！只在第一次抽選時抓
-  }, [])
+  }, [theme])
 
   const fetchWeatherData = async () => {
     try {
