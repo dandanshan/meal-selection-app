@@ -35,9 +35,11 @@
 - **記錄管理**: 查看、編輯、刪除歷史記錄
 
 ### 🎨 主題設計
-- **Mario 主題**: 經典遊戲風格設計
-- **Synology 主題**: 現代簡潔風格設計
-- **響應式設計**: 支援手機和桌面瀏覽
+- **Mario 主題**：經典遊戲風格設計
+- **Synology 主題**：現代簡潔風格設計
+- **Hakka 主題**：客家文化風格設計
+- **主題切換功能**：使用者可依喜好一鍵切換 Mario、Synology 或 Hakka 主題
+- **響應式設計**：支援手機和桌面瀏覽
 
 ## 🚀 快速開始
 
@@ -176,5 +178,5 @@ MIT License
 - [Tailwind CSS](https://tailwindcss.com/) - CSS 框架
 - [Shadcn UI](https://ui.shadcn.com/) - UI 組件庫
 - [Prisma](https://www.prisma.io/) - 資料庫 ORM
-- [中央氣象局](https://www.cwb.gov.tw/) - 天氣資料
+- [中央氣象局](https://www.cwa.gov.tw) - 天氣資料
 - [台灣證券交易所](https://www.twse.com.tw/) - 股票資料
