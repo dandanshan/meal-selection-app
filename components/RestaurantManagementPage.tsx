@@ -131,10 +131,10 @@ export default function RestaurantManagementPage() {
     }
 
     try {
-      const url = editingRestaurant 
+      const url = editingRestaurant
         ? `/api/restaurants/${editingRestaurant.id}`
         : '/api/restaurants'
-      
+
       const method = editingRestaurant ? 'PUT' : 'POST'
 
       const response = await fetch(url, {
@@ -150,7 +150,7 @@ export default function RestaurantManagementPage() {
       }
 
       await fetchRestaurants()
-      
+
       if (editingRestaurant) {
         // 編輯模式：重置表單並關閉編輯視窗
         resetForm()
@@ -158,7 +158,7 @@ export default function RestaurantManagementPage() {
         // 新增模式：只關閉新增視窗，不重置表單
         setIsAddDialogOpen(false)
       }
-      
+
       toast({
         title: editingRestaurant ? "餐廳已更新" : "餐廳已新增",
         description: editingRestaurant ? "餐廳資訊已成功更新" : "新餐廳已成功新增",
@@ -175,7 +175,7 @@ export default function RestaurantManagementPage() {
 
   const editRestaurant = (restaurant: Restaurant) => {
     setEditingRestaurant(restaurant)
-    
+
     setRestaurantForm({
       name: restaurant.name,
       type: restaurant.type,
@@ -239,7 +239,7 @@ export default function RestaurantManagementPage() {
   }
 
   return (
-    <div className="space-y-4 sm:space-y-6">
+    <div id="managamant" className="space-y-4 sm:space-y-6">
       {/* 新增餐廳按鈕 */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
         <h2 className="text-xl sm:text-2xl font-bold theme-title">店家管理</h2>
@@ -423,7 +423,7 @@ export default function RestaurantManagementPage() {
           ) : (
             <div className="grid gap-6">
               {restaurants.map((restaurant) => (
-                <div key={restaurant.id} className="border rounded-lg p-4 sm:p-6">
+                <div key={restaurant.id} className="restaurant-card border rounded-lg p-4 sm:p-6">
                   <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-6">
                     <div className="space-y-4 sm:space-y-5 flex-1">
                       <div className="flex items-center gap-2">
@@ -643,13 +643,13 @@ export default function RestaurantManagementPage() {
               確定要刪除這家餐廳嗎？此操作無法復原。
             </p>
             <div className="flex gap-2">
-              <Button 
+              <Button
                 onClick={() => {
                   if (deletingRestaurantId) {
                     deleteRestaurant(deletingRestaurantId)
                     setDeletingRestaurantId(null)
                   }
-                }} 
+                }}
                 className="flex-1 theme-button"
                 variant="destructive"
               >

@@ -18,7 +18,7 @@ function randomFloat(min: number, max: number) {
 function randomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
-function randomPick<T>(arr: T[]): T { return arr[Math.floor(Math.random()*arr.length)] }
+function randomPick<T>(arr: T[]): T { return arr[Math.floor(Math.random() * arr.length)] }
 
 function randomPetal(windowWidth: number) {
   const size = Math.floor(Math.random() * 4) + 6
@@ -29,8 +29,8 @@ function randomPetal(windowWidth: number) {
     top: randomFloat(-15, -5) + 'vh',
     width: size,
     height: size + randomInt(3, 8),
-    borderRadius: `${size + randomInt(10, 22)}px ${randomInt(6, size/1.7)}px`,
-    background: `linear-gradient(120deg, rgba(255, 183, 192, 0.92), rgba(249, 179, 192, 0.93))`,
+    borderRadius: `${size + randomInt(10, 22)}px ${randomInt(6, size / 1.7)}px`,
+    background: `linear-gradient(120deg, rgba(255, 183, 192, 0.8), rgba(249, 179, 192, 0.8))`,
     duration: randomFloat(7, 14),
     delay: randomFloat(0, 7),
     keyframes,

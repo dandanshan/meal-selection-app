@@ -179,14 +179,14 @@ body.hakka-theme {
   --theme-primary-hover: #309cd6;
   --theme-primary-active: #2488cb;
   --theme-secondary: #F9B3C0;
-  --theme-tertiary: #FFD801;
+  --theme-tertiary: #F9B3C0;
   --theme-bg: #289DE2;
   --theme-title: #53B4E9;
 }
 
 /* ========== 共用 UI 組件樣式 ========== */
 .theme-card {
-  background: var(#fff);
+  background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 8px 0 rgba(50, 50, 80, 0.10);
   margin-bottom: 1.5rem;
@@ -227,7 +227,7 @@ h3 {
   font-weight: bold;
   padding: 0.75rem 1.5rem;
   margin: 0.5rem 0;
-  transition: background 0.2s, border-color 0.2s;
+  transition: 0.2s, border-color 0.2s;
 }
 
 .theme-button:hover {
@@ -255,7 +255,7 @@ h3 {
   font-weight: bold;
   padding: 0.75rem 1.5rem;
   margin: 0.5rem 0;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition: 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .theme-button-outline:hover {
@@ -552,12 +552,39 @@ select:focus {
 }
 
 .hakka-theme .theme-banner {
-  background: #53B4E9;
+  /* 先設底色，再設背景圖片 */
+  background-color: var(--theme-primary);
+  background-image: url('/images/hakka-bg.png');
+  background-repeat: repeat;
+  background-size: 768px 512px;
+  background-position: center;
   box-shadow: 0 1px 3px rgba(73, 73, 73, 0.06);
   color: #fff;
   padding: 2rem 0;
   margin-bottom: 2rem;
 }
+
+.hakka-theme .theme-banner h1 {
+  text-shadow:
+    1px 1px 2px var(--theme-primary-active),
+    0 0 1em var(--theme-primary),
+    0 0 0.2em var(--theme-primary);
+}
+
+.hakka-theme #managamant .theme-card {
+  background-color: var(--theme-primary);
+  background-image: url('/images/hakka-bg.png');
+  background-repeat: repeat;
+  background-size: 512px 341px;
+  background-position: center;
+}
+
+.hakka-theme #managamant .restaurant-card {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
 
 /* Mario 主題的蘑菇裝飾樣式 */
 .mario-mushroom-decoration {

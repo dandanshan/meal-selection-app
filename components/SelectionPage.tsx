@@ -29,7 +29,7 @@ interface Restaurant {
   id: string
   name: string
   type: string
-  suggestedPeople: number
+  suggestedPeople: number | string
   phone?: string
   address?: string
   distance?: number
@@ -64,8 +64,33 @@ function calcHeatIndex(temp: number, rh: number) {
   return hi.toFixed(1);
 }
 
+// 用餐人數檢查優化：抽為純 function，減少型別錯誤跟重複判斷
+function checkPeopleCountSuitable(suggestedPeople: string | number, count: number) {
+  let raw: string | number = suggestedPeople;
+  if (typeof raw === 'string') {
+    raw = raw.trim();
+    if (raw.startsWith('"') && raw.endsWith('"')) {
+      raw = raw.slice(1, -1);
+    }
+  }
+  if (typeof raw === 'string') {
+    if (raw.includes('-')) {
+      const [min, max] = raw.split('-').map(Number);
+      return count < min || count > max;
+    } else if (/\d+\+/.test(raw)) {
+      const min = Number(raw.replace('+', ''));
+      return count < min;
+    } else {
+      return count !== Number(raw);
+    }
+  } else if (typeof raw === 'number') {
+    return count > raw;
+  }
+  return false;
+}
+
 export default function SelectionPage() {
-  const [peopleCount, setPeopleCount] = useState<number | ''>('')
+  const [peopleCount, setPeopleCount] = useState<number | ''>('');
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null)
   const [isRaining, setIsRaining] = useState<string>('no')
   const [selectedResult, setSelectedResult] = useState<{ restaurant: Restaurant; selectionData: any } | null>(null)
@@ -78,8 +103,6 @@ export default function SelectionPage() {
   // 已移除定位資訊
   const { theme } = useTheme()
   const { toast } = useToast()
-
-
 
   useEffect(() => {
     fetchWeatherData()
@@ -125,32 +148,26 @@ export default function SelectionPage() {
     return <Sun className="w-6 h-6" />
   }
 
-  const handleSelectRestaurant = async () => {
+  const selectRestaurant = async (extra: Record<string, any> = {}) => {
     if (!peopleCount || isRaining === '' || !weatherData) {
-      toast({
-        title: "請填寫完整資訊",
-        description: "請確保已填寫用餐人數和天氣狀況",
-        variant: "destructive",
-      })
-      return
+      toast({ title: "請填寫完整資訊", description: "請確保已填寫用餐人數和天氣狀況", variant: "destructive" })
+      return null
     }
 
     setLoading(true)
     try {
       const response = await fetch('/api/select', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           peopleCount: Number(peopleCount),
           isRaining: isRaining === 'yes',
           weather: weatherData.weather,
           temperature: weatherData.temperature,
-          radius
+          radius,
+          ...extra
         })
       })
-
       if (!response.ok) {
         const error = await response.json()
         toast({
@@ -158,21 +175,26 @@ export default function SelectionPage() {
           description: error.error || '沒有符合條件的餐廳',
           variant: "destructive",
         })
-        return
+        return null
       }
-
-      const result = await response.json()
-      setSelectedResult(result)
-      setShowConfirmDialog(true)
+      return await response.json()
     } catch (error) {
-      console.error('Error selecting restaurant:', error)
       toast({
         title: "抽選失敗",
         description: "請稍後再試",
         variant: "destructive",
       })
+      return null
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleSelectRestaurant = async () => {
+    const result = await selectRestaurant()
+    if (result) {
+      setSelectedResult(result)
+      setShowConfirmDialog(true)
     }
   }
 
@@ -216,55 +238,9 @@ export default function SelectionPage() {
   }
 
   const handleReselectRestaurant = async () => {
-    if (!peopleCount || isRaining === '' || !weatherData) {
-      toast({
-        title: "請填寫完整資訊",
-        description: "請確保已填寫用餐人數和天氣狀況",
-        variant: "destructive",
-      })
-      return
-    }
-
-    setLoading(true)
-    try {
-      const response = await fetch('/api/select', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          peopleCount: Number(peopleCount),
-          isRaining: isRaining === 'yes',
-          weather: weatherData.weather,
-          temperature: weatherData.temperature
-        })
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        toast({
-          title: "抽選失敗",
-          description: error.error || '請稍後再試',
-          variant: "destructive",
-        })
-        return
-      }
-
-      const result = await response.json()
-      setSelectedResult(result)
-      // 保持對話框開啟，但更新選擇結果
-    } catch (error) {
-      console.error('Error reselecting restaurant:', error)
-      toast({
-        title: "重新抽選失敗",
-        description: "請稍後再試",
-        variant: "destructive",
-      })
-    } finally {
-      setLoading(false)
-    }
+    const result = await selectRestaurant()
+    if (result) setSelectedResult(result)
   }
-
 
 
   return (
@@ -491,8 +467,8 @@ export default function SelectionPage() {
                       {isPositive && <TrendingUp className="w-4 h-4 text-red-600" />}
                       {isNegative && <TrendingDown className="w-4 h-4 text-green-600" />}
                       <span className={`text-sm font-medium ${isPositive ? 'text-red-600' :
-                          isNegative ? 'text-green-600' :
-                            'text-gray-600'
+                        isNegative ? 'text-green-600' :
+                          'text-gray-600'
                         }`}>
                         {stock.changePercent !== '--' ? `${stock.changePercent}%` : '--'}
                       </span>
@@ -501,8 +477,8 @@ export default function SelectionPage() {
                   <div className="flex items-center justify-between text-xs text-gray-500">
                     <span>成交量: {parseInt(stock.volume).toLocaleString()}</span>
                     <span className={`${isPositive ? 'text-red-600' :
-                        isNegative ? 'text-green-600' :
-                          'text-gray-600'
+                      isNegative ? 'text-green-600' :
+                        'text-gray-600'
                       }`}>
                       {stock.priceChange !== '--' ? `${parseFloat(stock.priceChange) > 0 ? '+' : ''}${stock.priceChange}` : '--'}
                     </span>
@@ -547,6 +523,10 @@ export default function SelectionPage() {
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4" />
                     <span>建議人數: {selectedResult.restaurant.suggestedPeople}人</span>
+                    {/* 檢查用餐人數是否落在建議範圍 */}
+                    {checkPeopleCountSuitable(selectedResult.restaurant.suggestedPeople, selectedResult.selectionData.peopleCount) && (
+                      <span className="ml-2 text-xs text-yellow-500">(⚠️超出建議人數)</span>
+                    )}
                   </div>
                   {selectedResult.restaurant.address && (
                     <div className="flex items-center gap-2">
