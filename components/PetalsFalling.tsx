@@ -1,6 +1,5 @@
 'use client'
 import { useEffect, useState } from 'react'
-import styles from './PetalsFalling.module.css'
 import { useTheme } from './ThemeProvider'
 
 const PETAL_COUNT = 18
@@ -15,6 +14,7 @@ const KEYFRAMES = [
 function randomFloat(min: number, max: number) {
   return Math.random() * (max - min) + min
 }
+
 function randomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -62,11 +62,11 @@ export default function PetalsFalling() {
   if (theme !== 'hakka') return null
 
   return (
-    <div className={styles.petals} aria-hidden="true">
+    <div className="petals" aria-hidden="true">
       {petals.map((p, i) => (
         <div
           key={i}
-          className={styles.sakura}
+          className="sakura"
           style={{
             left: `${p.left}px`,
             top: p.top,
